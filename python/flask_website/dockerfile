@@ -1,0 +1,16 @@
+#bash image
+FROM python:3.11
+
+#working directory
+WORKDIR /app
+
+#code copy
+COPY . /app
+
+#python required lib
+RUN pip install --no-cache-dir flask
+
+#run
+CMD ["python", "app.py"]
+
+
