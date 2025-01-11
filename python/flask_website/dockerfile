@@ -1,5 +1,6 @@
 #bash image
-FROM python:3.11
+#-----------Stage 1---------------
+FROM python:3.11 AS backend-builder
 
 #working directory
 WORKDIR /app
@@ -9,6 +10,15 @@ COPY . /app
 
 #python required lib
 RUN pip install --no-cache-dir flask
+
+#--------------stage 2--------------
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY --from=backend-builder /user/local/lib/python3.11/site-packages/ /user/local/lib/python3.11/site-packages/
+
+COPY --from=backend-builder /app /app
 
 #run
 CMD ["python", "app.py"]
